@@ -1,114 +1,210 @@
-# 🚀 Data Engineering Lab — GitHub Codespaces
+# 🚀 Data Engineering Lab — Modern ETL Pipeline
 
-**End-to-end Data Engineering project built for interview portfolio.**
-Stack: Python · PostgreSQL · Apache Airflow · dbt · Jupyter · SQL
+Production-style end-to-end Data Engineering project built using Python, PostgreSQL, dbt, Docker, Jupyter Notebook, and GitHub Codespaces.
 
 ---
 
-## 🏗️ Architecture
+# 🏗️ Architecture
 
-```
+```text
 OpenWeather API
-      ↓
-Python ETL (extract → transform → validate)
-      ↓
-Apache Airflow (schedule every 6 hours)
-      ↓
-PostgreSQL (raw layer)
-      ↓
-dbt (staging → marts transformation)
-      ↓
-Jupyter Notebook (analysis & visualisation)
+        ↓
+Python ETL Pipeline
+        ↓
+Data Validation & Transformation
+        ↓
+PostgreSQL Data Warehouse
+        ↓
+dbt Staging Models
+        ↓
+dbt Mart Models
+        ↓
+Jupyter Notebook Analytics
 ```
 
 ---
 
-## ⚡ Quick Start — Codespaces
+# ⚡ Features
 
-### Step 1 — Open in Codespaces
-Click **Code → Codespaces → Create codespace on main**
-
-Setup runs automatically (~5 min). All tools install by themselves.
-
-### Step 2 — Add API Key
-```bash
-cp .env.example .env
-# Edit .env and add your OpenWeather API key
-# Free key at: openweathermap.org/api
-```
-
-### Step 3 — Run ETL Pipeline
-```bash
-python pipelines/weather_etl.py
-```
-
-### Step 4 — Start Airflow
-```bash
-export AIRFLOW_HOME=/workspaces/de-lab/airflow
-airflow scheduler &
-airflow webserver --port 8080 &
-# Open port 8080 → login: admin / admin123
-```
-
-### Step 5 — Run dbt Transformations
-```bash
-cd dbt_project
-dbt run
-dbt test
-dbt docs generate && dbt docs serve
-```
-
-### Step 6 — Open Jupyter Notebook
-```bash
-jupyter notebook --port 8888 --no-browser
-# Open port 8888 in browser
-```
+- Real-time weather API ingestion
+- Python ETL pipeline
+- Data validation checks
+- PostgreSQL warehouse loading
+- dbt layered transformations
+- Staging → marts architecture
+- Analytics-ready datasets
+- Jupyter Notebook visualisation
+- Cloud-based development using GitHub Codespaces
 
 ---
 
-## 📁 Project Structure
+# 🛠️ Tech Stack
 
-```
-de-lab/
-├── .devcontainer/
-│   ├── devcontainer.json     # Codespaces config
-│   └── setup.sh              # Auto-install all tools
-├── pipelines/
-│   └── weather_etl.py        # Main ETL pipeline
-├── dags/
-│   └── weather_etl_dag.py    # Airflow DAG
-├── dbt_project/
-│   └── models/
-│       ├── staging/          # stg_weather.sql
-│       └── marts/            # mart_city_weather_summary.sql
-├── notebooks/
-│   └── weather_analysis.ipynb
+| Tool | Purpose |
+|------|----------|
+| Python | ETL scripting |
+| PostgreSQL | Data warehouse |
+| dbt | SQL transformations |
+| Docker | PostgreSQL container |
+| Pandas | Data processing |
+| SQLAlchemy | Database connection |
+| Jupyter Notebook | Analysis & visualisation |
+| GitHub Codespaces | Cloud development environment |
+
+---
+
+# 📁 Project Structure
+
+```text
+data-engineering-lab/
+│
+├── de_project/
+│   ├── dags/
+│   │   └── weather_etl_dag.py
+│   │
+│   ├── dbt_project/
+│   │   ├── dbt_project.yml
+│   │   └── models/
+│   │       ├── staging/
+│   │       │   └── stg_weather.sql
+│   │       │
+│   │       └── marts/
+│   │           └── mart_city_weather_summary.sql
+│   │
+│   ├── notebooks/
+│   │   └── weather_analysis.ipynb
+│   │
+│   └── pipelines/
+│       └── weather_etl.py
+│
 └── README.md
 ```
 
 ---
 
-## 🎯 Interview Talking Points
+# ⚙️ Setup Instructions
 
-- **ETL Pipeline** — "Built Python ETL with API ingestion, data validation, and PostgreSQL loading"
-- **Airflow** — "Orchestrated pipelines with DAGs, task dependencies, retries, and XCom"
-- **dbt** — "Implemented staging → marts layered transformation architecture"
-- **Data Quality** — "Added validation checks at ingestion and post-load stages"
-- **End-to-End** — "Raw API → warehouse → analytics-ready marts → visualisation"
+## 1️⃣ Clone Repository
 
----
-
-## 🛠️ Tech Stack
-
-| Tool | Version | Purpose |
-|------|---------|---------|
-| Python | 3.11 | ETL scripting |
-| PostgreSQL | 14 | Data warehouse |
-| Apache Airflow | 2.8.1 | Orchestration |
-| dbt-postgres | 1.7.0 | Transformation |
-| Pandas | 2.1 | Data manipulation |
-| Jupyter | Latest | Analysis |
+```bash
+git clone <your-repo-url>
+cd data-engineering-lab
+```
 
 ---
 
-*Built by Muhammed Asif T — Data Engineer Portfolio Project*
+## 2️⃣ Create Virtual Environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+---
+
+## 3️⃣ Install Dependencies
+
+```bash
+pip install requests pandas sqlalchemy psycopg2-binary matplotlib seaborn dbt-core dbt-postgres
+```
+
+---
+
+## 4️⃣ Start PostgreSQL Using Docker
+
+```bash
+docker run --name postgres-weather \
+-e POSTGRES_USER=deuser \
+-e POSTGRES_PASSWORD=depass123 \
+-e POSTGRES_DB=de_lab \
+-p 5432:5432 \
+-d postgres
+```
+
+---
+
+## 5️⃣ Add OpenWeather API Key
+
+```bash
+export OPENWEATHER_API_KEY="your_api_key"
+```
+
+Free API:
+https://openweathermap.org/api
+
+---
+
+## 6️⃣ Run ETL Pipeline
+
+```bash
+python de_project/pipelines/weather_etl.py
+```
+
+---
+
+## 7️⃣ Run dbt Models
+
+```bash
+cd de_project/dbt_project
+dbt run
+```
+
+---
+
+# 📊 Example Analytics
+
+The mart layer generates analytics-ready KPIs such as:
+
+- Average city temperature
+- Maximum & minimum temperature
+- Average humidity
+- Wind speed metrics
+- Dominant weather condition
+- Visibility metrics
+
+---
+
+# 🧠 Interview Talking Points
+
+## ETL Pipeline
+
+> Built a production-style ETL pipeline with API ingestion, transformation, validation, and PostgreSQL loading using Python.
+
+---
+
+## dbt Transformations
+
+> Implemented modular SQL transformations using staging → marts layered architecture with dbt.
+
+---
+
+## Data Engineering Workflow
+
+> Designed an end-to-end analytics workflow from raw API ingestion to business-ready reporting datasets.
+
+---
+
+## Cloud Development
+
+> Developed and tested the entire project using GitHub Codespaces cloud environment.
+
+---
+
+# 📈 Future Improvements
+
+- Apache Airflow orchestration
+- Streamlit dashboard
+- CI/CD using GitHub Actions
+- Data quality testing with dbt tests
+- AWS S3 integration
+- DuckDB warehouse support
+
+---
+
+# 👨‍💻 Author
+
+**Muhammed Asif T**
+
+Aspiring Data Engineer focused on modern data stack technologies and cloud-based data pipelines.
+
+---
